@@ -1,4 +1,8 @@
 import { prismaService } from './prismaService';
+import * as dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 export class DatabaseService {
   async initialize() {

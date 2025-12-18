@@ -1,5 +1,5 @@
 import { UserService } from './userService';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 export class AuthService {
   private userService: UserService;

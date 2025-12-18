@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { authRoutes } from './routes/authRoutes';
 import { DatabaseService } from './services/databaseService';
 
@@ -18,6 +18,23 @@ app.get('/', async (request, reply) => {
 
 // Register authentication routes
 app.register(authRoutes, { prefix: '/api/auth' });
+
+// Graceful shutdown
+async function closeGracefully(signal: string) {
+  console.log(`Received signal to terminate: ${signal}`);
+  
+  try {
+    await app.close();
+    console.log('Fastify server closed');
+  } catch (err) {
+    console.error('Error closing Fastify server:', err);
+  }
+  
+  process.exit(0);
+}
+
+process.on('SIGINT', () => closeGracefully('SIGINT'));
+process.on('SIGTERM', () => closeGracefully('SIGTERM'));
 
 // Start the server
 const start = async () => {

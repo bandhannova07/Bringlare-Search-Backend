@@ -1,10 +1,26 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
+import * as dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const adapter = new PrismaPg(pool);
+
+const prismaInstance = new PrismaClient({
+  adapter,
+});
 
 class PrismaService {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = prismaInstance;
   }
 
   get client() {
@@ -23,6 +39,7 @@ class PrismaService {
 
   async disconnect() {
     await this.prisma.$disconnect();
+    await pool.end();
   }
 }
 

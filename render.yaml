@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: bringlare-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        fromDatabase:
+          name: bringlare-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: bringlare-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: bringlare-db
+          property: username
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: bringlare-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: bringlare-db
+          property: database
+      - key: JWT_SECRET
+        sync: false
+      - key: REFRESH_TOKEN_SECRET
+        sync: false
+
+databases:
+  - name: bringlare-db
+    plan: free
