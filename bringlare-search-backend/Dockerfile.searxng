@@ -2,6 +2,6 @@ FROM searxng/searxng:latest
 
 COPY searxng-config/settings.yml /etc/searxng/settings.yml
 
-EXPOSE 8080
+EXPOSE 10000
 
 CMD ["uwsgi", "--master", "--http-socket", "0.0.0.0:8080", "--module", "searx.webapp"]
