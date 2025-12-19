@@ -19,7 +19,7 @@ search:
     - json
 
 server:
-  port: 8080
+  port: 10000
   bind_address: "0.0.0.0"
   secret_key: "CHANGE_THIS_SUPER_LONG_RANDOM_SECRET"
   image_proxy: true
